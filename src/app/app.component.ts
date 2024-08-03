@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ModalComponent } from './modal/modal.component';
 
@@ -11,4 +11,10 @@ import { ModalComponent } from './modal/modal.component';
 })
 export class AppComponent {
   title = 'angularlib-test';
+
+  @ViewChild('modal') modal!: ModalComponent;
+
+  openModal() {
+    this.modal.open();
+  }
 }
