@@ -12,9 +12,16 @@ import { ModalComponent } from './modal/modal.component';
 export class AppComponent {
   title = 'angularlib-test';
 
+
+
   @ViewChild('modal') modal!: ModalComponent;
 
   openModal() {
     this.modal.open();
+  }
+
+  handleModalClose(result: string) {
+    this.title = result;
+    console.log('handleModalClose: ', result);
   }
 }

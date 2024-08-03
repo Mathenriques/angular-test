@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -11,8 +11,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class ModalComponent {
 
   isOpen: boolean = false;
+  result: string = 'titulo novoo'
 
-  @Output() closeModal = new EventEmitter<void>()
+  @Input() modalTitle: string = ''
+  @Output() closeModal = new EventEmitter<string>()
 
   open() {
     this.isOpen = true;
@@ -20,6 +22,6 @@ export class ModalComponent {
 
   close() {
     this.isOpen = false;
-    this.closeModal.emit();
+    this.closeModal.emit(this.result);
   }
 }
