@@ -1,28 +1,47 @@
 <div *ngFor="let option of options; let i = index">
   <label>
-    <input type="checkbox" [(ngModel)]="selectedOptions[i]">
+    <input type="checkbox" [name]="option" (change)="onCheckboxChange($event)">
     {{ option }}
   </label>
 </div>
 <button (click)="onSubmit()">Submit</button>
 
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { YourService } from './your-service.service'; // substitua pelo seu serviço
 
 @Component({
   selector: 'app-checkbox-example',
   templateUrl: './checkbox-example.component.html',
   styleUrls: ['./checkbox-example.component.css']
 })
-export class CheckboxExampleComponent {
-  options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-  selectedOptions = new Array(this.options.length).fill(false);
+export class CheckboxExampleComponent implements OnInit {
+  options: string[] = [];
+  selectedOptions: Set<string> = new Set<string>();
+
+  constructor(private yourService: YourService) {}
+
+  ngOnInit() {
+    this.yourService.getOptions().subscribe(response => {
+      this.options = response; // supondo que a resposta seja um array de strings
+    });
+  }
+
+  onCheckboxChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const optionName = inputElement.name;
+
+    if (inputElement.checked) {
+      this.selectedOptions.add(optionName);
+    } else {
+      this.selectedOptions.delete(optionName);
+    }
+  }
 
   onSubmit() {
-    const selected = this.selectedOptions
-      .map((checked, index) => checked ? this.options[index] : null)
-      .filter(value => value !== null);
-
-    console.log(selected);
+    const selectedArray = Array.from(this.selectedOptions);
+    console.log(selectedArray);
   }
 }
+
+
